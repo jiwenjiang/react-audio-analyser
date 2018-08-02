@@ -1,8 +1,7 @@
 const MediaRecorder = Target => {
     console.log(Target);
     Target.prototype.initAudio = () => {
-        console.log(666);
+        console.log(233);
     }
-    return Target;
 }
 export default MediaRecorder;
