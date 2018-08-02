@@ -6,10 +6,23 @@ import MediaRecorder from './MediaRecorder';
 
 @MediaRecorder
 class AudioAnalyser extends Component {
-    componentDidMount(){
-        console.log(this);
+    componentDidMount() {
+        this.startAudio();
     }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.status !== prevProps.status) {
+            const event = {
+                inactive: this.stopAudio,
+                recording: this.startAudio,
+                paused: this.pauseAudio,
+            }[this.props.status];
+            event && event();
+        }
+    }
+
     render() {
+
         return (
             <div>
                 666
