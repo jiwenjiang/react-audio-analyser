@@ -22,10 +22,11 @@ class AudioAnalyser extends Component {
     }
 
     render() {
+        const {children} = this.props;
 
         return (
             <div>
-                666
+                {children}
             </div>
         );
     }
