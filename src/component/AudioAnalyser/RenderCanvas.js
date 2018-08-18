@@ -7,6 +7,7 @@ const RenderCanvas = Target => {
     return class RenderCanvasClass extends Target {
         static canvasRef = React.createRef(); // react ref
         static canvasCtx = null; // canvas 上下文
+        static animationId = null;
 
         componentDidMount() {
             this.initCanvas();
@@ -30,9 +31,10 @@ const RenderCanvas = Target => {
 
         /**
          * @author j_bleach 2018/8/18
-         * @describe 画布初始化
+         * @describe 画布初始化,停止动画
          */
         initCanvas() {
+            window.cancelAnimationFrame(RenderCanvasClass.animationId);
             const {height, width} = this.props;
             this.configCanvas();
             RenderCanvasClass.canvasCtx.moveTo(0, height / 2);
@@ -43,31 +45,22 @@ const RenderCanvas = Target => {
         /**
          * @author j_bleach 2018/8/18
          * @describe 动态绘制音频曲线
-         * @param name: string
          */
         renderCurve = () => {
             const {height, width} = this.props;
-            requestAnimationFrame(this.renderCurve);
-            const bufferLength = this.analyser.fftSize;
+            RenderCanvasClass.animationId = window.requestAnimationFrame(this.renderCurve); // 定时动画
+            const bufferLength = this.analyser.fftSize; // 默认为2048
             const dataArray = new Uint8Array(bufferLength);
-            this.analyser.getByteTimeDomainData(dataArray);
+            this.analyser.getByteTimeDomainData(dataArray); // 将音频信息存储在长度为2048（默认）的类型数组（dataArray）
             this.configCanvas();
-
-            const sliceWidth = width * 1.0 / bufferLength;
+            const sliceWidth = Number(width) / bufferLength;
             let x = 0;
-
             for (let i = 0; i < bufferLength; i++) {
                 const v = dataArray[i] / 128.0;
                 const y = v * height / 2;
-
-                if (i === 0) {
-                    RenderCanvasClass.canvasCtx.moveTo(x, y);
-                } else {
-                    RenderCanvasClass.canvasCtx.lineTo(x, y);
-                }
+                RenderCanvasClass.canvasCtx[i === 0 ? "moveTo" : "lineTo"](x, y);
                 x += sliceWidth;
             }
-
             RenderCanvasClass.canvasCtx.lineTo(width, height / 2);
             RenderCanvasClass.canvasCtx.stroke();
         }

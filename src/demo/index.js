@@ -27,7 +27,10 @@ export default class demo extends Component {
         const audioProps = {
             status,
             startCallback: () => {
-                console.log("succ callback")
+                console.log("succ start")
+            },
+            stopCallback: () => {
+                console.log("succ stop")
             }
         }
         return (
@@ -35,7 +38,7 @@ export default class demo extends Component {
                 <div className="btn-box">
                     <i className="iconfont icon-start" title="开始" onClick={() => this.controlAudio("recording")}></i>
                     <i className="iconfont icon-pause" title="暂停"></i>
-                    <i className="iconfont icon-stop" title="停止"></i>
+                    <i className="iconfont icon-stop" title="停止" onClick={() => this.controlAudio("inactive")}></i>
                 </div>
             </AudioAnalyser>
         );

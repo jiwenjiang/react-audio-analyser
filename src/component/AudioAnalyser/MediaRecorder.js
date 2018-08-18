@@ -69,6 +69,16 @@ const MediaRecorderFn = Target => {
 
         /**
          * @author j_bleach 2018/8/18
+         * @describe 停止录音
+         */
+        stopAudio = () => {
+            MediaRecorderClass.mediaRecorder.stop();
+            MediaRecorderClass.audioCtx.suspend();
+            this.initCanvas();
+        }
+
+        /**
+         * @author j_bleach 2018/8/18
          * @describe mediaRecorder音频记录
          * @param stream: binary data
          */
