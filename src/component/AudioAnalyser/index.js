@@ -3,12 +3,13 @@
  */
 import React, {Component} from 'react';
 import MediaRecorder from './MediaRecorder';
+import RenderCanvas from './RenderCanvas';
+import "./index.css";
+
 
 @MediaRecorder
+@RenderCanvas
 class AudioAnalyser extends Component {
-    componentDidMount() {
-        this.startAudio();
-    }
 
     componentDidUpdate(prevProps) {
         if (this.props.status !== prevProps.status) {
@@ -22,14 +23,28 @@ class AudioAnalyser extends Component {
     }
 
     render() {
-        const {children} = this.props;
-
+        console.log(this)
+        const {children, className} = this.props;
         return (
-            <div>
+            <div className={className}>
+                <div>
+                    {this.renderCanvas()}
+                </div>
                 {children}
             </div>
         );
     }
 }
 
+AudioAnalyser.defaultProps = {
+    backgroundColor: "rgba(0, 0, 0, 1)",
+    strokeColor: "#ffffff",
+    className: "audioContainer",
+    audioBitsPerSecond: 128000,
+    mimeType: "audio/webm;codecs=opus",
+    width: 500,
+    height: 100,
+};
+
 export default AudioAnalyser;
+

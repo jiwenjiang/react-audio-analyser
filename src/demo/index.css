@@ -1,0 +1,13 @@
+@import "../font/iconfont.css";
+
+.iconfont {
+    font-size: 30px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-box {
+    width: 500px;
+    text-align: center;
+    padding: 2px;
+}

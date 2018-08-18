@@ -1,18 +1,23 @@
 /**
  * Created by j_bleach on 2018/8/3.
  */
-import {AudioAnalyser} from '../component'
 import React, {Component} from 'react';
+import "./index.css";
+import {AudioAnalyser} from '../component'
+
 export default class demo extends Component {
     componentDidMount() {
+        console.log(this)
     }
 
     render() {
         return (
             <AudioAnalyser>
-                <button>开始</button>
-                <button>暂停</button>
-                <button>结束</button>
+                <div className="btn-box">
+                    <i className="iconfont icon-start" title="开始"></i>
+                    <i className="iconfont icon-pause" title="暂停"></i>
+                    <i className="iconfont icon-stop" title="停止"></i>
+                </div>
             </AudioAnalyser>
         );
     }

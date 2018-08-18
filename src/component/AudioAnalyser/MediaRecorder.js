@@ -7,6 +7,7 @@ const MediaRecorder = Target => {
         }
 
         startAudio() {
+            console.log(2)
             navigator.mediaDevices.getUserMedia(constraints).then(stream => {
                 console.log(stream);
             })
