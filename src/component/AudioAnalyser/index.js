@@ -23,7 +23,6 @@ class AudioAnalyser extends Component {
     }
 
     render() {
-        console.log(this)
         const {children, className} = this.props;
         return (
             <div className={className}>

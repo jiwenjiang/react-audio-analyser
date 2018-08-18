@@ -1,23 +1,26 @@
-const MediaRecorder = Target => {
+/**
+ * @author j_bleach 2018/8/18
+ * @describe 媒体记录（包含开始，暂停，停止等媒体流及回调操作）
+ * @param Target 被装饰类（AudioAnalyser）
+ */
+const MediaRecorderFn = Target => {
     const constraints = {audio: true};
     return class MediaRecorderClass extends Target {
-        constructor() {
-            super();
-            this.compatibility();
-        }
+        static audioChunk = [] // 音频信息存储对象
+        static mediaRecorder = null // 媒体记录对象
+        static audioCtx = new (window.AudioContext || window.webkitAudioContext)(); // 音频上下文
 
-        startAudio() {
-            console.log(2)
-            navigator.mediaDevices.getUserMedia(constraints).then(stream => {
-                console.log(stream);
-            })
+        constructor(props) {
+            super(props);
+            MediaRecorderClass.compatibility();
+            this.analyser = MediaRecorderClass.audioCtx.createAnalyser()
         }
 
         /**
          * @author j_bleach 2018/08/02 17:06
          * @describe 浏览器navigator.mediaDevices兼容性处理
          */
-        compatibility() {
+        static compatibility() {
             const promisifiedOldGUM = (constraints) => {
                 // First get ahold of getUserMedia, if present
                 const getUserMedia =
@@ -50,6 +53,37 @@ const MediaRecorder = Target => {
                 navigator.mediaDevices.getUserMedia = promisifiedOldGUM;
             }
         }
+
+        /**
+         * @author j_bleach 2018/8/18
+         * @describe 开始录音
+         */
+        startAudio = () => {
+            navigator.mediaDevices.getUserMedia(constraints).then(stream => {
+                this.recordAudio(stream);
+                if (typeof this.props.startCallback === "function") {
+                    this.props.startCallback();
+                }
+            })
+        }
+
+        /**
+         * @author j_bleach 2018/8/18
+         * @describe mediaRecorder音频记录
+         * @param stream: binary data
+         */
+        recordAudio(stream) {
+            const {audioBitsPerSecond, mimeType} = this.props;
+            MediaRecorderClass.mediaRecorder = new MediaRecorder(stream, {audioBitsPerSecond, mimeType});
+            MediaRecorderClass.mediaRecorder.ondataavailable = (event) => {
+                MediaRecorderClass.audioChunk.push(event.data);
+            }
+            MediaRecorderClass.audioCtx.resume();
+            MediaRecorderClass.mediaRecorder.start(10);
+            const source = MediaRecorderClass.audioCtx.createMediaStreamSource(stream);
+            source.connect(this.analyser);
+            this.renderCurve(this.analyser);
+        }
     }
 }
-export default MediaRecorder;
+export default MediaRecorderFn;
