@@ -87,6 +87,10 @@ const MediaRecorderFn = Target => {
                         throw new Error("start audio failed:", err);
                     }
                 )
+                return false
+            }
+            if (recorder && recorder.state === "paused") {
+                MediaRecorderClass.resumeAudio();
             }
         }
         /**
@@ -115,6 +119,7 @@ const MediaRecorderFn = Target => {
                 recorder.onstop = () => {
                     let blob = MediaRecorderClass.audioStream2Blob(mimeType);
                     MediaRecorderClass.checkAndExecFn(this.props.stopCallback, blob);
+                    MediaRecorderClass.audioChunk = []; // 结束后，清空音频存储
                 }
                 MediaRecorderClass.audioCtx.suspend();
                 this.initCanvas();
@@ -137,9 +142,24 @@ const MediaRecorderFn = Target => {
             MediaRecorderClass.mediaRecorder.onstart = (e) => {
                 MediaRecorderClass.checkAndExecFn(this.props.startCallback, e);
             }
+            MediaRecorderClass.mediaRecorder.onresume = (e) => {
+                MediaRecorderClass.checkAndExecFn(this.props.startCallback, e);
+            }
+            MediaRecorderClass.mediaRecorder.onerror = (e) => {
+                MediaRecorderClass.checkAndExecFn(this.props.errorCallback, e);
+            }
             const source = MediaRecorderClass.audioCtx.createMediaStreamSource(stream);
             source.connect(this.analyser);
             this.renderCurve(this.analyser);
+        }
+
+        /**
+         * @author j_bleach 2018/8/19
+         * @describe 恢复录音
+         */
+        static resumeAudio() {
+            MediaRecorderClass.audioCtx.resume();
+            MediaRecorderClass.mediaRecorder.resume();
         }
     }
 }
