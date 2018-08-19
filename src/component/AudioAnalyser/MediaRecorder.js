@@ -58,14 +58,20 @@ const MediaRecorderFn = Target => {
          * @author j_bleach 2018/8/19
          * @describe 验证函数，如果存在即执行
          * @param fn: function 被验证函数
+         * @param e: object 事件对象 event object
          */
-        static checkAndExecFn(fn) {
-            if (!fn) {
-                return false
-            }
-            if (typeof fn === "function") {
-                fn()
-            }
+        static checkAndExecFn(fn, e) {
+            typeof fn === "function" && fn(e)
+        }
+
+        /**
+         * @author j_bleach 2018/8/19
+         * @describe 音频流转blob对象
+         * @param type: string 音频的mime-type
+         */
+        static audioStream2Blob(type) {
+            const chunk = MediaRecorderClass.audioChunk;
+            return new Blob(chunk, {type});
         }
 
         /**
@@ -74,10 +80,8 @@ const MediaRecorderFn = Target => {
          */
         startAudio = () => {
             const recorder = MediaRecorderClass.mediaRecorder;
-            console.log(recorder);
             if (!recorder || (recorder && recorder.state === "inactive")) {
                 navigator.mediaDevices.getUserMedia(constraints).then(stream => {
-                    MediaRecorderClass.checkAndExecFn(this.props.startCallback);
                     this.recordAudio(stream);
                 }).catch(err => {
                         throw new Error("start audio failed:", err);
@@ -91,9 +95,11 @@ const MediaRecorderFn = Target => {
          */
         pauseAudio = () => {
             const recorder = MediaRecorderClass.mediaRecorder;
-            console.log(recorder)
             if (recorder && recorder.state === "recording") {
-                MediaRecorderClass.mediaRecorder.pause();
+                recorder.pause();
+                recorder.onpause = () => {
+                    MediaRecorderClass.checkAndExecFn(this.props.pauseCallback);
+                }
                 MediaRecorderClass.audioCtx.suspend();
             }
         }
@@ -102,13 +108,16 @@ const MediaRecorderFn = Target => {
          * @describe 停止录音
          */
         stopAudio = () => {
+            const {mimeType} = this.props;
             const recorder = MediaRecorderClass.mediaRecorder;
             if (recorder && ["recording", "paused"].includes(recorder.state)) {
                 recorder.stop();
+                recorder.onstop = () => {
+                    let blob = MediaRecorderClass.audioStream2Blob(mimeType);
+                    MediaRecorderClass.checkAndExecFn(this.props.stopCallback, blob);
+                }
                 MediaRecorderClass.audioCtx.suspend();
-                MediaRecorderClass.checkAndExecFn(this.props.stopCallback);
                 this.initCanvas();
-                console.log(recorder.state)
             }
         }
 
@@ -124,7 +133,10 @@ const MediaRecorderFn = Target => {
                 MediaRecorderClass.audioChunk.push(event.data);
             }
             MediaRecorderClass.audioCtx.resume();
-            MediaRecorderClass.mediaRecorder.start(10);
+            MediaRecorderClass.mediaRecorder.start();
+            MediaRecorderClass.mediaRecorder.onstart = (e) => {
+                MediaRecorderClass.checkAndExecFn(this.props.startCallback, e);
+            }
             const source = MediaRecorderClass.audioCtx.createMediaStreamSource(stream);
             source.connect(this.analyser);
             this.renderCurve(this.analyser);

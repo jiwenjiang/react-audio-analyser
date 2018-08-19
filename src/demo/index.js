@@ -26,14 +26,14 @@ export default class demo extends Component {
         const {status} = this.state;
         const audioProps = {
             status,
-            startCallback: () => {
-                console.log("succ start")
+            startCallback: (e) => {
+                console.log("succ start", e)
             },
-            pauseCallback: () => {
-                console.log("succ pause")
+            pauseCallback: (e) => {
+                console.log("succ pause", e)
             },
-            stopCallback: () => {
-                console.log("succ stop")
+            stopCallback: (e) => {
+                console.log("succ stop", e)
             }
         }
         return (
