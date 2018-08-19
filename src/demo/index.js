@@ -44,10 +44,13 @@ export default class demo extends Component {
             <AudioAnalyser {...audioProps}>
                 <div className="btn-box">
                     {status !== "recording" &&
-                    <i className="iconfont icon-start" title="开始" onClick={() => this.controlAudio("recording")}></i>}
+                    <i className="iconfont icon-start" title="开始"
+                       onClick={() => this.controlAudio("recording")}></i>}
                     {status === "recording" &&
-                    <i className="iconfont icon-pause" title="暂停" onClick={() => this.controlAudio("paused")}></i>}
-                    <i className="iconfont icon-stop" title="停止" onClick={() => this.controlAudio("inactive")}></i>
+                    <i className="iconfont icon-pause" title="暂停"
+                       onClick={() => this.controlAudio("paused")}></i>}
+                    <i className="iconfont icon-stop" title="停止"
+                       onClick={() => this.controlAudio("inactive")}></i>
                 </div>
             </AudioAnalyser>
         );
