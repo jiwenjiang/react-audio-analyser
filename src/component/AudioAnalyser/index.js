@@ -23,13 +23,22 @@ class AudioAnalyser extends Component {
     }
 
     render() {
-        const {children, className} = this.props;
+        const {
+            children, className, audioSrc
+        } = this.props;
         return (
             <div className={className}>
                 <div>
                     {this.renderCanvas()}
                 </div>
                 {children}
+                {
+                    audioSrc &&
+                    <div>
+                        <audio controls src={audioSrc}/>
+                    </div>
+                }
+
             </div>
         );
     }

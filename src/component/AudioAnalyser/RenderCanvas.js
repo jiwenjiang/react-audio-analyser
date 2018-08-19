@@ -13,6 +13,10 @@ const RenderCanvas = Target => {
             this.initCanvas();
         }
 
+        componentWillUnmount() {
+            window.cancelAnimationFrame(RenderCanvasClass.animationId); //组件销毁前，注销定时动画
+        }
+
         /**
          * @author j_bleach 2018/8/18
          * @describe canvas 配置

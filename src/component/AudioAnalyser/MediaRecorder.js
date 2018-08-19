@@ -13,7 +13,8 @@ const MediaRecorderFn = Target => {
         constructor(props) {
             super(props);
             MediaRecorderClass.compatibility();
-            this.analyser = MediaRecorderClass.audioCtx.createAnalyser()
+            this.analyser = MediaRecorderClass.audioCtx.createAnalyser();
+            this.auditionList = [];
         }
 
         /**
@@ -84,7 +85,7 @@ const MediaRecorderFn = Target => {
                 navigator.mediaDevices.getUserMedia(constraints).then(stream => {
                     this.recordAudio(stream);
                 }).catch(err => {
-                        throw new Error("start audio failed:", err);
+                        throw new Error("getUserMedia failed:", err);
                     }
                 )
                 return false
