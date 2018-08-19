@@ -1,7 +1,7 @@
 /**
  * Created by j_bleach on 2018/8/6.
  */
-import React from 'react';
+import React from "react";
 
 const RenderCanvas = Target => {
     return class RenderCanvasClass extends Target {

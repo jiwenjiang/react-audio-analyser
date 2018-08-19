@@ -32,7 +32,7 @@ const MediaRecorderFn = Target => {
                 // to keep a consistent interface
                 if (!getUserMedia) {
                     return Promise.reject(
-                        new Error('getUserMedia is not implemented in this browser')
+                        new Error("getUserMedia is not implemented in this browser")
                     );
                 }
                 // Otherwise, wrap the call to the old navigator.getUserMedia with a Promise
@@ -55,32 +55,67 @@ const MediaRecorderFn = Target => {
         }
 
         /**
+         * @author j_bleach 2018/8/19
+         * @describe 验证函数，如果存在即执行
+         * @param fn: function 被验证函数
+         */
+        static checkAndExecFn(fn) {
+            if (!fn) {
+                return false
+            }
+            if (typeof fn === "function") {
+                fn()
+            }
+        }
+
+        /**
          * @author j_bleach 2018/8/18
          * @describe 开始录音
          */
         startAudio = () => {
-            navigator.mediaDevices.getUserMedia(constraints).then(stream => {
-                this.recordAudio(stream);
-                if (typeof this.props.startCallback === "function") {
-                    this.props.startCallback();
-                }
-            })
+            const recorder = MediaRecorderClass.mediaRecorder;
+            console.log(recorder);
+            if (!recorder || (recorder && recorder.state === "inactive")) {
+                navigator.mediaDevices.getUserMedia(constraints).then(stream => {
+                    MediaRecorderClass.checkAndExecFn(this.props.startCallback);
+                    this.recordAudio(stream);
+                }).catch(err => {
+                        throw new Error("start audio failed:", err);
+                    }
+                )
+            }
         }
-
+        /**
+         * @author j_bleach 2018/8/19
+         * @describe 暂停录音
+         */
+        pauseAudio = () => {
+            const recorder = MediaRecorderClass.mediaRecorder;
+            console.log(recorder)
+            if (recorder && recorder.state === "recording") {
+                MediaRecorderClass.mediaRecorder.pause();
+                MediaRecorderClass.audioCtx.suspend();
+            }
+        }
         /**
          * @author j_bleach 2018/8/18
          * @describe 停止录音
          */
         stopAudio = () => {
-            MediaRecorderClass.mediaRecorder.stop();
-            MediaRecorderClass.audioCtx.suspend();
-            this.initCanvas();
+            const recorder = MediaRecorderClass.mediaRecorder;
+            if (recorder && ["recording", "paused"].includes(recorder.state)) {
+                recorder.stop();
+                MediaRecorderClass.audioCtx.suspend();
+                MediaRecorderClass.checkAndExecFn(this.props.stopCallback);
+                this.initCanvas();
+                console.log(recorder.state)
+            }
         }
 
         /**
          * @author j_bleach 2018/8/18
          * @describe mediaRecorder音频记录
-         * @param stream: binary data
+         * @param stream: binary data 音频流
          */
         recordAudio(stream) {
             const {audioBitsPerSecond, mimeType} = this.props;

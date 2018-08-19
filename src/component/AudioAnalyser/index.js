@@ -1,9 +1,9 @@
 /**
  * Created by j_bleach on 2018/8/1.
  */
-import React, {Component} from 'react';
-import MediaRecorder from './MediaRecorder';
-import RenderCanvas from './RenderCanvas';
+import React, {Component} from "react";
+import MediaRecorder from "./MediaRecorder";
+import RenderCanvas from "./RenderCanvas";
 import "./index.css";
 
 
@@ -16,7 +16,7 @@ class AudioAnalyser extends Component {
             const event = {
                 inactive: this.stopAudio,
                 recording: this.startAudio,
-                paused: this.pauseAudio,
+                paused: this.pauseAudio
             }[this.props.status];
             event && event();
         }
@@ -42,7 +42,7 @@ AudioAnalyser.defaultProps = {
     audioBitsPerSecond: 128000,
     mimeType: "audio/webm;codecs=opus",
     width: 500,
-    height: 100,
+    height: 100
 };
 
 export default AudioAnalyser;
