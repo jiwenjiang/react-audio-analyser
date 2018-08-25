@@ -100,3 +100,7 @@ Properties   | Description                                          | Default   
 ## License
 
 MIT
+
+## TODO
+- output audio/mp3
+- Diverse audio curve display
