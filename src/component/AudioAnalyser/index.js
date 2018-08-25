@@ -38,7 +38,6 @@ class AudioAnalyser extends Component {
                         <audio controls src={audioSrc}/>
                     </div>
                 }
-
             </div>
         );
     }
@@ -49,7 +48,8 @@ AudioAnalyser.defaultProps = {
     strokeColor: "#ffffff",
     className: "audioContainer",
     audioBitsPerSecond: 128000,
-    mimeType: "audio/webm;codecs=opus",
+    mimeType: "audio/webm",
+    audioType: "audio/webm",
     width: 500,
     height: 100
 };

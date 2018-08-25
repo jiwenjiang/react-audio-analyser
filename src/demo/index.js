@@ -25,6 +25,7 @@ export default class demo extends Component {
     render() {
         const {status, audioSrc} = this.state;
         const audioProps = {
+            audioType: "audio/wav",
             status,
             audioSrc,
             startCallback: (e) => {

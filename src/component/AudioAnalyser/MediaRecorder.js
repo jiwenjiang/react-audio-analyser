@@ -3,6 +3,8 @@
  * @describe 媒体记录（包含开始，暂停，停止等媒体流及回调操作）
  * @param Target 被装饰类（AudioAnalyser）
  */
+import convertWav from "./audioConvertWav";
+
 const MediaRecorderFn = Target => {
     const constraints = {audio: true};
     return class MediaRecorderClass extends Target {
@@ -14,7 +16,6 @@ const MediaRecorderFn = Target => {
             super(props);
             MediaRecorderClass.compatibility();
             this.analyser = MediaRecorderClass.audioCtx.createAnalyser();
-            this.auditionList = [];
         }
 
         /**
@@ -69,10 +70,35 @@ const MediaRecorderFn = Target => {
          * @author j_bleach 2018/8/19
          * @describe 音频流转blob对象
          * @param type: string 音频的mime-type
+         * @param cb: function 录音停止回调
          */
-        static audioStream2Blob(type) {
+        static audioStream2Blob(type, cb) {
+            let wavBlob = null;
             const chunk = MediaRecorderClass.audioChunk;
-            return new Blob(chunk, {type});
+            const audioWav = () => {
+                let fr = new FileReader();
+                fr.readAsArrayBuffer(new Blob(chunk, {type}))
+                let frOnload = (e) => {
+                    const buffer = e.target.result
+                    MediaRecorderClass.audioCtx.decodeAudioData(buffer).then(data => {
+                        wavBlob = new Blob([new DataView(convertWav(data))], {
+                            type: "audio/wav"
+                        })
+                        MediaRecorderClass.checkAndExecFn(cb, wavBlob);
+                    })
+                }
+                fr.onload = frOnload
+            }
+            switch (type) {
+                case "audio/webm":
+                    MediaRecorderClass.checkAndExecFn(cb, new Blob(chunk, {type}));
+                    break;
+                case "audio/wav":
+                    audioWav()
+                    break;
+                default:
+                    return void 0
+            }
         }
 
         /**
@@ -113,13 +139,12 @@ const MediaRecorderFn = Target => {
          * @describe 停止录音
          */
         stopAudio = () => {
-            const {mimeType} = this.props;
+            const {audioType} = this.props;
             const recorder = MediaRecorderClass.mediaRecorder;
             if (recorder && ["recording", "paused"].includes(recorder.state)) {
                 recorder.stop();
                 recorder.onstop = () => {
-                    let blob = MediaRecorderClass.audioStream2Blob(mimeType);
-                    MediaRecorderClass.checkAndExecFn(this.props.stopCallback, blob);
+                    MediaRecorderClass.audioStream2Blob(audioType, this.props.stopCallback);
                     MediaRecorderClass.audioChunk = []; // 结束后，清空音频存储
                 }
                 MediaRecorderClass.audioCtx.suspend();
