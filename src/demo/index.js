@@ -3,7 +3,8 @@
  */
 import React, {Component} from "react";
 import "./index.css";
-import {AudioAnalyser} from "../component"
+import AudioAnalyser from "lib"
+
 
 export default class demo extends Component {
     constructor(props) {

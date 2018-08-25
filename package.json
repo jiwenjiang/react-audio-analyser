@@ -1,7 +1,18 @@
 {
   "name": "react-audio-analyser",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "author": "j_bleach <513755565@qq.com>",
+  "description": "audio recordings and draw the curve",
+  "keyword": [
+    "wav",
+    "encoder",
+    "audio",
+    "recorder",
+    "react-audio",
+    "audio-analyser",
+    "audio-curve"
+  ],
   "dependencies": {
     "autoprefixer": "7.1.6",
     "babel-core": "6.26.0",
@@ -47,10 +58,14 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "pub": "webpack --config config/webpack.config.publish.js",
+    "lib": "cross-env NODE_ENV=production babel src/component --copy-files --source-maps --extensions .js --out-dir lib"
   },
   "devDependencies": {
-    "babel-plugin-transform-decorators-legacy": "^1.3.5"
+    "babel-plugin-transform-decorators": "^6.24.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.5",
+    "cross-env": "^5.2.0"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -96,5 +111,9 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jiwenjiang/react-audio-analyser"
   }
 }

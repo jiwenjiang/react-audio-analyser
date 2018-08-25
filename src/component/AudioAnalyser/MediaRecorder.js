@@ -94,7 +94,7 @@ const MediaRecorderFn = Target => {
                     MediaRecorderClass.checkAndExecFn(cb, new Blob(chunk, {type}));
                     break;
                 case "audio/wav":
-                    audioWav()
+                    audioWav();
                     break;
                 default:
                     return void 0
