@@ -1,23 +1,24 @@
-English | [简体中文](./README_zh-CN.md)
+[English](./README.md) | 简体中文
 # react-audio-analyser
 
 recording audio and drawing the curve. support for converting the audio to wav.
+录音并实时绘制音频曲线，支持音频转码audio/wav
 
-## Demo
+## 示例
 
 Check out the [demo](https://jiwenjiang.github.io/).
 
-## Installation
+## 安装
 
 `npm install react-audio-analyser --save`
 
-## Features
+## 特征
 
-- Record audio and show the curve
-- Support output audio/wav
-- Various state callbacks
+- 记录音频，绘制曲线
+- 支持输出转换为audio/wav
+- 各状态勾子触发，错误处理
 
-## Example
+## 示例
 
 
 
@@ -45,8 +46,8 @@ export default class demo extends Component {
     render() {
         const {status, audioSrc} = this.state;
         const audioProps = {
-            audioType: "audio/wav", // Temporarily only supported audio/wav, default audio/weba
-            status, // Triggering component updates by changing status
+            audioType: "audio/wav", // 暂时只支持转换 audio/wav, 默认 audio/weba
+            status, // 通过改变状态属性，来触发组件各状态更新
             audioSrc,
             startCallback: (e) => {
                 console.log("succ start", e)
@@ -79,24 +80,24 @@ export default class demo extends Component {
 }
 
 ```
-## Properties(audioProps)
+## 属性(audioProps)
 
-Properties   | Description                                          | Default               |IsRequired
+属性   | 描述                                          | 默认值               |是否必填
 -------------|------------------------------------------------------|-------------------------|------------
-`status`     | `recording` start , `paused` pause , `inactive` stop | undefined               | yes
-`audioType`       | audio output type      | audio/weba | no
-`audioSrc`     | window.URL.createObjectURL of output audio blob ,when the prop set, showing the audio control list    | null    | no                  |
-`startCallback`     | Function triggered after starting(resuming) recording     |   undefined                 | no
-`pauseCallback`     | Function triggered after pausing recording       |   undefined                 | no
-`stopCallback`     | Function triggered after stoping recording       |   undefined                 | no
-`backgroundColor`   | audio canvas backgroundColor       |   rgba(0, 0, 0, 1)                 | no
-`strokeColor`   | audio canvas strokeColor       |  #ffffff                | no
-`className`   | audio canvas css classname       |  audioContainer                | no
-`audioBitsPerSecond`   | audioBitsPerSecond       |  128000                | no
-`width`   | audio canvas width       |  500px                | no
-`height`   | audio canvas height       |  100px                | no
+`status`     | `recording` 开始录音 , `paused` 暂停录音 , `inactive` 停止录音 | undefined               | 是
+`audioType`       | 录音输出类型      | audio/weba | 否
+`audioSrc`     | 录音    | null    | 否
+`startCallback`     | 开始（恢复）录音成功回调     |   undefined                 | 否
+`pauseCallback`     | 暂停录音成功回调       |   undefined                 | 否
+`stopCallback`     | 停止录音       |   undefined                 | 否
+`backgroundColor`   | 音频曲线背景色       |   rgba(0, 0, 0, 1)                 | 否
+`strokeColor`   | 音频曲线线条色       |  #ffffff                | 否
+`className`   | 音频曲线样式类       |  audioContainer                | 否
+`audioBitsPerSecond`   | 音频码率       |  128000                | 否
+`width`   | 音频曲线宽度       |  500px                | 否
+`height`   | 高度       |  100px                | 否
 
 
-## License
+## 许可证
 
 MIT

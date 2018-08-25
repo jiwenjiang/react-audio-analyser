@@ -4,6 +4,7 @@
   "private": false,
   "author": "j_bleach <513755565@qq.com>",
   "description": "audio recordings and draw the curve",
+  "main": "lib/index.js",
   "keyword": [
     "wav",
     "encoder",
@@ -115,5 +116,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/jiwenjiang/react-audio-analyser"
-  }
+  },
+  "license": "MIT"
 }
