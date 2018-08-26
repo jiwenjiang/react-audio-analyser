@@ -44,6 +44,8 @@ class AudioAnalyser extends Component {
 }
 
 AudioAnalyser.defaultProps = {
+    status: "",
+    audioSrc: "",
     backgroundColor: "rgba(0, 0, 0, 1)",
     strokeColor: "#ffffff",
     className: "audioContainer",

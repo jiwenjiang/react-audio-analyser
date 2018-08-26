@@ -45,7 +45,7 @@ export default class demo extends Component {
     render() {
         const {status, audioSrc} = this.state;
         const audioProps = {
-            audioType: "audio/wav", // Temporarily only supported audio/wav, default audio/weba
+            audioType: "audio/wav", // Temporarily only supported audio/wav, default audio/webm
             status, // Triggering component updates by changing status
             audioSrc,
             startCallback: (e) => {
@@ -84,7 +84,7 @@ export default class demo extends Component {
 Properties   | Description                                          | Default               |IsRequired
 -------------|------------------------------------------------------|-------------------------|------------
 `status`     | `recording` start , `paused` pause , `inactive` stop | undefined               | yes
-`audioType`       | audio output type      | audio/weba | no
+`audioType`       | audio output type      | audio/webm | no
 `audioSrc`     | window.URL.createObjectURL of output audio blob ,when the prop set, showing the audio control list    | null    | no                  |
 `startCallback`     | Function triggered after starting(resuming) recording     |   undefined                 | no
 `pauseCallback`     | Function triggered after pausing recording       |   undefined                 | no

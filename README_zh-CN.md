@@ -45,7 +45,7 @@ export default class demo extends Component {
     render() {
         const {status, audioSrc} = this.state;
         const audioProps = {
-            audioType: "audio/wav", // 暂时只支持转换 audio/wav, 默认 audio/weba
+            audioType: "audio/wav", // 暂时只支持转换 audio/wav, 默认 audio/webm
             status, // 通过改变状态属性，来触发组件各状态更新
             audioSrc,
             startCallback: (e) => {
@@ -84,7 +84,7 @@ export default class demo extends Component {
 属性   | 描述                                          | 默认值               |是否必填
 -------------|------------------------------------------------------|-------------------------|------------
 `status`     | `recording` 开始录音 , `paused` 暂停录音 , `inactive` 停止录音 | undefined               | 是
-`audioType`       | 录音输出类型      | audio/weba | 否
+`audioType`       | 录音输出类型      | audio/webm | 否
 `audioSrc`     | 录音文件路径（通过输出音频文件转换），设置此属性后显示audio播放器    | null    | 否
 `startCallback`     | 开始（恢复）录音成功回调     |   undefined                 | 否
 `pauseCallback`     | 暂停录音成功回调       |   undefined                 | 否

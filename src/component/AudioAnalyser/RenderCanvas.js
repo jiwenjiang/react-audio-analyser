@@ -55,7 +55,7 @@ const RenderCanvas = Target => {
             RenderCanvasClass.animationId = window.requestAnimationFrame(this.renderCurve); // 定时动画
             const bufferLength = this.analyser.fftSize; // 默认为2048
             const dataArray = new Uint8Array(bufferLength);
-            this.analyser.getByteTimeDomainData(dataArray); // 将音频信息存储在长度为2048（默认）的类型数组（dataArray）
+            this.analyser.getByteTimeDomainData(dataArray);// 将音频信息存储在长度为2048（默认）的类型数组（dataArray）
             this.configCanvas();
             const sliceWidth = Number(width) / bufferLength;
             let x = 0;
