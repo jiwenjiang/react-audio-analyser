@@ -3,14 +3,14 @@
  */
 import React, {Component} from "react";
 import "./index.css";
-import AudioAnalyser from "lib"
+import AudioAnalyser from "../component"
 
 
 export default class demo extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            status: null
+            status: ""
         }
     }
 

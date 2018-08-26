@@ -2,6 +2,7 @@
  * Created by j_bleach on 2018/8/1.
  */
 import React, {Component} from "react";
+import PropTypes from "prop-types";
 import MediaRecorder from "./MediaRecorder";
 import RenderCanvas from "./RenderCanvas";
 import "./index.css";
@@ -54,6 +55,20 @@ AudioAnalyser.defaultProps = {
     audioType: "audio/webm",
     width: 500,
     height: 100
+};
+AudioAnalyser.propTypes = {
+    status: PropTypes.string,
+    audioSrc: PropTypes.string,
+    backgroundColor: PropTypes.string,
+    strokeColor: PropTypes.string,
+    className: PropTypes.string,
+    audioBitsPerSecond: PropTypes.number,
+    audioType: PropTypes.string,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    startCallback: PropTypes.func,
+    pauseCallback: PropTypes.func,
+    stopCallback: PropTypes.func,
 };
 
 export default AudioAnalyser;
