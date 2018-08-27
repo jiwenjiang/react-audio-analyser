@@ -27,6 +27,7 @@ export default class demo extends Component {
         const {status, audioSrc} = this.state;
         const audioProps = {
             audioType: "audio/wav",
+            // audioOptions: {sampleRate: 30000}, // 设置输出音频采样率
             status,
             audioSrc,
             startCallback: (e) => {

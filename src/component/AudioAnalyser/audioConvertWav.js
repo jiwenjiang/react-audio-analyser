@@ -4,10 +4,9 @@
 function audioBufferToWav(buffer, opt = {}) {
 
     let numChannels = buffer.numberOfChannels
-    let sampleRate = buffer.sampleRate
+    let sampleRate = opt.sampleRate || buffer.sampleRate
     let format = opt.float32 ? 3 : 1
     let bitDepth = format === 3 ? 32 : 16
-
     let result
     if (numChannels === 2) {
         result = interleave(buffer.getChannelData(0), buffer.getChannelData(1))

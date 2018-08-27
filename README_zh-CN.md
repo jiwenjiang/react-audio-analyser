@@ -95,6 +95,8 @@ export default class demo extends Component {
 `audioBitsPerSecond`   | 音频码率       |  128000                | 否
 `width`   | 音频曲线宽度       |  500px                | 否
 `height`   | 高度       |  100px                | 否
+`audioOptions`   |  audio/wav 输出格式选项       |  {}              | 否
+`audioOptions.sampleRate`   | 输出audio/wav 音频采样率设置       |              | 否
 
 
 ## 许可证

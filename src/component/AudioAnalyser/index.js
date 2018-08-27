@@ -53,6 +53,7 @@ AudioAnalyser.defaultProps = {
     audioBitsPerSecond: 128000,
     mimeType: "audio/webm",
     audioType: "audio/webm",
+    audioOptions: {},
     width: 500,
     height: 100
 };
@@ -64,11 +65,12 @@ AudioAnalyser.propTypes = {
     className: PropTypes.string,
     audioBitsPerSecond: PropTypes.number,
     audioType: PropTypes.string,
+    audioOptions: PropTypes.object,
     width: PropTypes.number,
     height: PropTypes.number,
     startCallback: PropTypes.func,
     pauseCallback: PropTypes.func,
-    stopCallback: PropTypes.func,
+    stopCallback: PropTypes.func
 };
 
 export default AudioAnalyser;

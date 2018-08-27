@@ -72,7 +72,7 @@ const MediaRecorderFn = Target => {
          * @param type: string 音频的mime-type
          * @param cb: function 录音停止回调
          */
-        static audioStream2Blob(type, cb) {
+        static audioStream2Blob(type, audioOptions, cb) {
             let wavBlob = null;
             const chunk = MediaRecorderClass.audioChunk;
             const audioWav = () => {
@@ -81,7 +81,7 @@ const MediaRecorderFn = Target => {
                 let frOnload = (e) => {
                     const buffer = e.target.result
                     MediaRecorderClass.audioCtx.decodeAudioData(buffer).then(data => {
-                        wavBlob = new Blob([new DataView(convertWav(data))], {
+                        wavBlob = new Blob([new DataView(convertWav(data, audioOptions))], {
                             type: "audio/wav"
                         })
                         MediaRecorderClass.checkAndExecFn(cb, wavBlob);
@@ -139,12 +139,12 @@ const MediaRecorderFn = Target => {
          * @describe 停止录音
          */
         stopAudio = () => {
-            const {audioType} = this.props;
+            const {audioType, audioOptions} = this.props;
             const recorder = MediaRecorderClass.mediaRecorder;
             if (recorder && ["recording", "paused"].includes(recorder.state)) {
                 recorder.stop();
                 recorder.onstop = () => {
-                    MediaRecorderClass.audioStream2Blob(audioType, this.props.stopCallback);
+                    MediaRecorderClass.audioStream2Blob(audioType, audioOptions, this.props.stopCallback);
                     MediaRecorderClass.audioChunk = []; // 结束后，清空音频存储
                 }
                 MediaRecorderClass.audioCtx.suspend();

@@ -95,6 +95,8 @@ Properties   | Description                                          | Default   
 `audioBitsPerSecond`   | audioBitsPerSecond       |  128000                | no
 `width`   | audio canvas width       |  500px                | no
 `height`   | audio canvas height       |  100px                | no
+`audioOptions`   | output audio/wav options       |  {}              | no
+`audioOptions.sampleRate`   | output audio/wav sampleRate       |              | no
 
 
 ## License
