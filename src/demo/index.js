@@ -41,6 +41,9 @@ export default class demo extends Component {
                     audioSrc: window.URL.createObjectURL(e)
                 })
                 console.log("succ stop", e)
+            },
+            errorCallback: (err) => {
+                console.log("error", err)
             }
         }
         return (
