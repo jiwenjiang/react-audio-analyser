@@ -35,6 +35,7 @@ const MediaRecorderFn = Target => {
                 // Some browsers just don't implement it - return a rejected promise with an error
                 // to keep a consistent interface
                 if (!getUserMedia) {
+                    MediaRecorderClass.checkAndExecFn(this.props.errorCallback);
                     return Promise.reject(
                         new Error("getUserMedia is not implemented in this browser")
                     );
@@ -127,7 +128,8 @@ const MediaRecorderFn = Target => {
                 navigator.mediaDevices.getUserMedia(constraints).then(stream => {
                     this.recordAudio(stream);
                 }).catch(err => {
-                        throw new Error("getUserMedia failed:", err);
+                        MediaRecorderClass.checkAndExecFn(this.props.errorCallback, err);
+                        // throw new Error("getUserMedia failed:", err);
                     }
                 )
                 return false
