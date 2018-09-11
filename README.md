@@ -89,6 +89,7 @@ Properties   | Description                                          | Default   
 `startCallback`     | Function triggered after starting(resuming) recording     |   undefined                 | no
 `pauseCallback`     | Function triggered after pausing recording       |   undefined                 | no
 `stopCallback`     | Function triggered after stoping recording       |   undefined                 | no
+`errorCallback`     | Function triggered after error       |   undefined                 | no
 `backgroundColor`   | audio canvas backgroundColor       |   rgba(0, 0, 0, 1)                 | no
 `strokeColor`   | audio canvas strokeColor       |  #ffffff                | no
 `className`   | audio canvas css classname       |  audioContainer                | no

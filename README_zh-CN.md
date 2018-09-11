@@ -89,6 +89,7 @@ export default class demo extends Component {
 `startCallback`     | 开始（恢复）录音成功回调     |   undefined                 | 否
 `pauseCallback`     | 暂停录音成功回调       |   undefined                 | 否
 `stopCallback`     | 停止录音       |   undefined                 | 否
+`errorCallback`     | 错误处理回调       |   undefined                 | 否
 `backgroundColor`   | 音频曲线背景色       |   rgba(0, 0, 0, 1)                 | 否
 `strokeColor`   | 音频曲线线条色       |  #ffffff                | 否
 `className`   | 音频曲线样式类       |  audioContainer                | 否
