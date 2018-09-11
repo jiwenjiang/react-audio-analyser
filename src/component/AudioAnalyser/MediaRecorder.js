@@ -4,9 +4,11 @@
  * @param Target 被装饰类（AudioAnalyser）
  */
 import convertWav from "./audioConvertWav";
+import Worker from './mp3.worker.js';
 
 const MediaRecorderFn = Target => {
     const constraints = {audio: true};
+    const worker = new Worker();
     return class MediaRecorderClass extends Target {
         static audioChunk = [] // 音频信息存储对象
         static mediaRecorder = null // 媒体记录对象
@@ -89,12 +91,26 @@ const MediaRecorderFn = Target => {
                 }
                 fr.onload = frOnload
             }
+            const audioMp3 = () => {
+                let fr = new FileReader();
+                fr.readAsArrayBuffer(new Blob(chunk, {type}))
+                let frOnload = (e) => {
+                    const buffer = e.target.result
+                    MediaRecorderClass.audioCtx.decodeAudioData(buffer).then(data => {
+                        worker.postMessage("23333");
+                    })
+                }
+                fr.onload = frOnload
+            }
             switch (type) {
                 case "audio/webm":
                     MediaRecorderClass.checkAndExecFn(cb, new Blob(chunk, {type}));
                     break;
                 case "audio/wav":
                     audioWav();
+                    break;
+                case "audio/mp3":
+                    audioMp3();
                     break;
                 default:
                     return void 0

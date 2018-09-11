@@ -2,7 +2,6 @@
  * Created by j_bleach on 2018/8/25.
  */
 function audioBufferToWav(buffer, opt = {}) {
-
     let numChannels = buffer.numberOfChannels
     let sampleRate = opt.sampleRate || buffer.sampleRate
     let format = opt.float32 ? 3 : 1
