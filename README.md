@@ -1,6 +1,12 @@
 English | [简体中文](./README_zh-CN.md)
 # react-audio-analyser
 
+
+[![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/jiwenjiang/react-audio-analyser)
+[![npm (scoped)](https://img.shields.io/npm/v/:scope/:package.svg)](https://www.npmjs.com/package/react-audio-analyser)
+
+
+
 recording audio and drawing the curve. support for converting the audio to wav.
 
 ## Demo

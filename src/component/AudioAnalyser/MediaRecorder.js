@@ -98,7 +98,7 @@ const MediaRecorderFn = Target => {
                 let frOnload = (e) => {
                     const buffer = e.target.result
                     MediaRecorderClass.audioCtx.decodeAudioData(buffer).then(data => {
-                        worker.postMessage("23333");
+                        worker.postMessage(data);
                     })
                 }
                 fr.onload = frOnload
