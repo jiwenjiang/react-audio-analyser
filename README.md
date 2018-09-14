@@ -3,7 +3,8 @@ English | [简体中文](./README_zh-CN.md)
 
 
 [![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/jiwenjiang/react-audio-analyser)
-[![npm (scoped)](https://img.shields.io/npm/v/:scope/:package.svg)](https://www.npmjs.com/package/react-audio-analyser)
+[![GitHub release](https://img.shields.io/github/release/qubyte/rubidium.svg)](https://www.npmjs.com/package/react-audio-analyser)
+
 
 
 
