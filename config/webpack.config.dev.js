@@ -65,7 +65,9 @@ module.exports = {
         publicPath: publicPath,
         // Point sourcemap entries to original disk location (format as URL on Windows)
         devtoolModuleFilenameTemplate: info =>
-            path.resolve(info.absoluteResourcePath).replace(/\\/g, "/")
+            path.resolve(info.absoluteResourcePath).replace(/\\/g, "/"),
+        // For support web worker
+        // globalObject: 'this'
     },
     resolve: {
         // This allows you to set a fallback for where Webpack should look for modules.
@@ -115,26 +117,24 @@ module.exports = {
                         options: {
                             formatter: eslintFormatter,
                             eslintPath: require.resolve("eslint")
-
                         },
                         loader: require.resolve("eslint-loader")
                     }
                 ],
-                include: paths.appSrc
+                include: paths.appSrc,
             },
-            {
-                // 匹配 *.worker.js
-                test: /\.worker\.js$/,
-                use: {
-                    loader: "worker-loader",
-                    options: {
-                        name: "[name]:[hash:8].js",
-                        inline: true,
-                        // fallback: false
-                        // publicPath: '/scripts/workers/'
-                    }
-                }
-            },
+            // {
+            //     // 匹配 *.worker.js
+            //     test: /\.worker\.js$/,
+            //     use: {
+            //         loader: "worker-loader",
+            //         options: {
+            //             name: "[name]:[hash:8].js",
+            //             // inline: true,
+            //             fallback: true,
+            //         }
+            //     }
+            // },
             {
                 // "oneOf" will traverse all following loaders until one will
                 // match the requirements. When no loader matches it will fall

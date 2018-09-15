@@ -4,11 +4,12 @@
  * @param Target 被装饰类（AudioAnalyser）
  */
 import convertWav from "./audioConvertWav";
-import Worker from './mp3.worker.js';
+import worker_script  from "./mp3.worker.js";
+import WebWorker from "./webWorker";
 
 const MediaRecorderFn = Target => {
     const constraints = {audio: true};
-    const worker = new Worker();
+    const worker = new WebWorker(worker_script);
     return class MediaRecorderClass extends Target {
         static audioChunk = [] // 音频信息存储对象
         static mediaRecorder = null // 媒体记录对象
@@ -96,9 +97,11 @@ const MediaRecorderFn = Target => {
                 let fr = new FileReader();
                 fr.readAsArrayBuffer(new Blob(chunk, {type}))
                 let frOnload = (e) => {
-                    const buffer = e.target.result
-                    MediaRecorderClass.audioCtx.decodeAudioData(buffer).then(data => {
-                        worker.postMessage(data);
+                    const buffer = e.target.result;
+                    MediaRecorderClass.audioCtx.decodeAudioData(buffer).then(() => {
+
+                        // console.log(mp3Encode)
+                        worker.postMessage({meg:"msg"});
                     })
                 }
                 fr.onload = frOnload
