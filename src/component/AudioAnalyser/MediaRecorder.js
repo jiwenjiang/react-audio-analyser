@@ -5,7 +5,6 @@
  */
 import convertWav from "./audioConvertWav";
 import WebWorker from "./mp3.worker.js";
-// import WebWorker from "./webWorker";
 
 const MediaRecorderFn = Target => {
     const constraints = {audio: true};
