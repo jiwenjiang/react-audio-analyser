@@ -1,6 +1,6 @@
 {
   "name": "react-audio-analyser",
-  "version": "0.2.3",
+  "version": "0.2.0",
   "private": false,
   "author": "j_bleach <513755565@qq.com>",
   "description": "audio recordings and draw the curve",
