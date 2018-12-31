@@ -23,10 +23,16 @@ export default class demo extends Component {
         })
     }
 
+    changeScheme(e) {
+        this.setState({
+            audioType: e.target.value
+        })
+    }
+
     render() {
-        const {status, audioSrc} = this.state;
+        const {status, audioSrc, audioType} = this.state;
         const audioProps = {
-            audioType: "audio/wav",
+            audioType,
             // audioOptions: {sampleRate: 30000}, // 设置输出音频采样率
             status,
             audioSrc,
@@ -47,18 +53,26 @@ export default class demo extends Component {
             }
         }
         return (
-            <AudioAnalyser {...audioProps}>
-                <div className="btn-box">
-                    {status !== "recording" &&
-                    <i className="iconfont icon-start" title="开始"
-                       onClick={() => this.controlAudio("recording")}></i>}
-                    {status === "recording" &&
-                    <i className="iconfont icon-pause" title="暂停"
-                       onClick={() => this.controlAudio("paused")}></i>}
-                    <i className="iconfont icon-stop" title="停止"
-                       onClick={() => this.controlAudio("inactive")}></i>
-                </div>
-            </AudioAnalyser>
+            <div>
+                <AudioAnalyser {...audioProps}>
+                    <div className="btn-box">
+                        {status !== "recording" &&
+                        <i className="iconfont icon-start" title="开始"
+                           onClick={() => this.controlAudio("recording")}></i>}
+                        {status === "recording" &&
+                        <i className="iconfont icon-pause" title="暂停"
+                           onClick={() => this.controlAudio("paused")}></i>}
+                        <i className="iconfont icon-stop" title="停止"
+                           onClick={() => this.controlAudio("inactive")}></i>
+                    </div>
+                </AudioAnalyser>
+                <p>选择输出格式</p>
+                <select name="" id="" onChange={(e) => this.changeScheme(e)} value={audioType}>
+                    <option value="audio/webm">audio/webm（default）</option>
+                    <option value="audio/wav">audio/wav</option>
+                    <option value="audio/mp3">audio/mp3</option>
+                </select>
+            </div>
         );
     }
 }

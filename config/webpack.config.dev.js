@@ -123,18 +123,6 @@ module.exports = {
                 ],
                 include: paths.appSrc,
             },
-            // {
-            //     // 匹配 *.worker.js
-            //     test: /\.worker\.js$/,
-            //     use: {
-            //         loader: "worker-loader",
-            //         options: {
-            //             name: "[name]:[hash:8].js",
-            //             // inline: true,
-            //             fallback: true,
-            //         }
-            //     }
-            // },
             {
                 // "oneOf" will traverse all following loaders until one will
                 // match the requirements. When no loader matches it will fall
@@ -143,6 +131,18 @@ module.exports = {
                     // "url" loader works like "file" loader except that it embeds assets
                     // smaller than specified limit in bytes as data URLs to avoid requests.
                     // A missing `test` is equivalent to a match.
+                    {
+                        // 匹配 *.worker.js
+                        test: /\.worker\.js$/,
+                        use: {
+                            loader: 'worker-loader',
+                            options: {
+                                // name: '[name]:[hash:8].js',
+                                // fallback: false
+                                // publicPath: '/scripts/workers/'
+                            }
+                        }
+                    },
                     {
                         test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
                         loader: require.resolve("url-loader"),

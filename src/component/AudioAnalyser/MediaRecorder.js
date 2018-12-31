@@ -4,12 +4,12 @@
  * @param Target 被装饰类（AudioAnalyser）
  */
 import convertWav from "./audioConvertWav";
-import worker_script  from "./mp3.worker.js";
-import WebWorker from "./webWorker";
+import WebWorker from "./mp3.worker.js";
+// import WebWorker from "./webWorker";
 
 const MediaRecorderFn = Target => {
     const constraints = {audio: true};
-    const worker = new WebWorker(worker_script);
+    const mp3Worker = new WebWorker();
     return class MediaRecorderClass extends Target {
         static audioChunk = [] // 音频信息存储对象
         static mediaRecorder = null // 媒体记录对象
@@ -95,13 +95,25 @@ const MediaRecorderFn = Target => {
             }
             const audioMp3 = () => {
                 let fr = new FileReader();
-                fr.readAsArrayBuffer(new Blob(chunk, {type}))
+                fr.readAsArrayBuffer(new Blob(chunk, {type: "audio/wav"}))
                 let frOnload = (e) => {
                     const buffer = e.target.result;
-                    MediaRecorderClass.audioCtx.decodeAudioData(buffer).then(() => {
+                    MediaRecorderClass.audioCtx.decodeAudioData(buffer).then(data => {
+                        const wavBuf = convertWav(data, audioOptions)
+                        mp3Worker.postMessage({
+                            cmd: "init",
+                            config: {bitRate: 128}
+                        });
 
-                        // console.log(mp3Encode)
-                        worker.postMessage({meg:"msg"});
+                        mp3Worker.postMessage({cmd: "encode", rawInput: wavBuf});
+                        mp3Worker.postMessage({cmd: "finish"});
+
+                        mp3Worker.onmessage = (e) => {
+                            if (e.data.cmd == "end") {
+                                const mp3Blob = new Blob(e.data.buf, {type});
+                                MediaRecorderClass.checkAndExecFn(cb, mp3Blob);
+                            }
+                        };
                     })
                 }
                 fr.onload = frOnload
