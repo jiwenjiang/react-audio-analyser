@@ -45,7 +45,7 @@ export default class demo extends Component {
     render() {
         const {status, audioSrc} = this.state;
         const audioProps = {
-            audioType: "audio/wav", // 暂时只支持转换 audio/wav, 默认 audio/webm
+            audioType: "audio/wav", // 支持转换 audio/wav,audio/mp3, 默认 audio/webm
             status, // 通过改变状态属性，来触发组件各状态更新
             audioSrc,
             startCallback: (e) => {
@@ -105,5 +105,5 @@ export default class demo extends Component {
 MIT
 
 ## 待做
-- 输出音频转换MP3格式
+- 输出音频转换MP3格式(已完成)
 - 多样曲线展示

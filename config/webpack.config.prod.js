@@ -71,7 +71,7 @@ module.exports = {
         devtoolModuleFilenameTemplate: info =>
             path
                 .relative(paths.appSrc, info.absoluteResourcePath)
-                .replace(/\\/g, "/"),
+                .replace(/\\/g, "/")
         // For support web worker
         // globalObject: 'this'
     },
@@ -137,18 +137,14 @@ module.exports = {
                 oneOf: [
                     // "url" loader works just like "file" loader but it also embeds
                     // assets smaller than specified size as data URLs to avoid requests.
-                    {
-                        // 匹配 *.worker.js
-                        test: /\.worker\.js$/,
-                        use: {
-                            loader: 'worker-loader',
-                            options: {
-                                // name: '[name]:[hash:8].js',
-                                // fallback: false
-                                // publicPath: '/scripts/workers/'
-                            }
-                        }
-                    },
+                    // {
+                    //     // 匹配 *.worker.js
+                    //     test: /\.worker\.js$/,
+                    //     use: {
+                    //         loader: "worker-loader",
+                    //         options: {inline: true, fallback: true}
+                    //     }
+                    // },
                     {
                         test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
                         loader: require.resolve("url-loader"),

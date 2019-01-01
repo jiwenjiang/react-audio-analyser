@@ -131,18 +131,14 @@ module.exports = {
                     // "url" loader works like "file" loader except that it embeds assets
                     // smaller than specified limit in bytes as data URLs to avoid requests.
                     // A missing `test` is equivalent to a match.
-                    {
-                        // 匹配 *.worker.js
-                        test: /\.worker\.js$/,
-                        use: {
-                            loader: 'worker-loader',
-                            options: {
-                                // name: '[name]:[hash:8].js',
-                                // fallback: false
-                                // publicPath: '/scripts/workers/'
-                            }
-                        }
-                    },
+                    // {
+                    //     // 匹配 *.worker.js
+                    //     test: /\.worker\.js$/,
+                    //     use: [{
+                    //         loader: 'worker-loader',
+                    //         options: {inline: true}
+                    //     }]
+                    // },
                     {
                         test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
                         loader: require.resolve("url-loader"),

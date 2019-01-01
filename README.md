@@ -52,7 +52,7 @@ export default class demo extends Component {
     render() {
         const {status, audioSrc} = this.state;
         const audioProps = {
-            audioType: "audio/wav", // Temporarily only supported audio/wav, default audio/webm
+            audioType: "audio/wav", // supported audio/wav,audio/mp3, default audio/webm
             status, // Triggering component updates by changing status
             audioSrc,
             startCallback: (e) => {
@@ -112,5 +112,5 @@ Properties   | Description                                          | Default   
 MIT
 
 ## TODO
-- output audio/mp3
+- output audio/mp3 (completed)
 - Diverse audio curve display
