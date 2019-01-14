@@ -5,7 +5,7 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import MediaRecorder from "./MediaRecorder";
 import RenderCanvas from "./RenderCanvas";
-import "./index.css";
+// import "./index.css";
 
 
 @MediaRecorder
