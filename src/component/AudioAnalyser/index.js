@@ -68,9 +68,11 @@ AudioAnalyser.propTypes = {
     audioOptions: PropTypes.object,
     width: PropTypes.number,
     height: PropTypes.number,
+    timeslice: PropTypes.number,
     startCallback: PropTypes.func,
     pauseCallback: PropTypes.func,
-    stopCallback: PropTypes.func
+    stopCallback: PropTypes.func,
+    onRecordCallback: PropTypes.func
 };
 
 export default AudioAnalyser;

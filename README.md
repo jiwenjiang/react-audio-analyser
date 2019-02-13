@@ -92,10 +92,12 @@ Properties   | Description                                          | Default   
 -------------|------------------------------------------------------|-------------------------|------------
 `status`     | `recording` start , `paused` pause , `inactive` stop | undefined               | yes
 `audioType`       | audio output type      | audio/webm | no
+`timeslice`       | The number of milliseconds to record into each Blob      | undefined | no
 `audioSrc`     | window.URL.createObjectURL of output audio blob ,when the prop set, showing the audio control list    | null    | no                  |
 `startCallback`     | Function triggered after starting(resuming) recording     |   undefined                 | no
 `pauseCallback`     | Function triggered after pausing recording       |   undefined                 | no
 `stopCallback`     | Function triggered after stoping recording       |   undefined                 | no
+`onRecordCallback`     | Function triggered after setting timeslice or stoping recording       |   undefined                 | no
 `errorCallback`     | Function triggered after error       |   undefined                 | no
 `backgroundColor`   | audio canvas backgroundColor       |   rgba(0, 0, 0, 1)                 | no
 `strokeColor`   | audio canvas strokeColor       |  #ffffff                | no

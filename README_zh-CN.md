@@ -85,10 +85,12 @@ export default class demo extends Component {
 -------------|------------------------------------------------------|-------------------------|------------
 `status`     | `recording` 开始录音 , `paused` 暂停录音 , `inactive` 停止录音 | undefined               | 是
 `audioType`       | 录音输出类型      | audio/webm | 否
+`timeslice`       | 记录到每个音频文件的间隔时间      | audio/webm | 否
 `audioSrc`     | 录音文件路径（通过输出音频文件转换），设置此属性后显示audio播放器    | null    | 否
 `startCallback`     | 开始（恢复）录音成功回调     |   undefined                 | 否
 `pauseCallback`     | 暂停录音成功回调       |   undefined                 | 否
 `stopCallback`     | 停止录音       |   undefined                 | 否
+`onRecordCallback`     | 设置切片时间或者停止录音       |   undefined                 | 否
 `errorCallback`     | 错误处理回调       |   undefined                 | 否
 `backgroundColor`   | 音频曲线背景色       |   rgba(0, 0, 0, 1)                 | 否
 `strokeColor`   | 音频曲线线条色       |  #ffffff                | 否

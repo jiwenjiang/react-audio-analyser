@@ -35,6 +35,7 @@ export default class demo extends Component {
             // audioOptions: {sampleRate: 30000}, // 设置输出音频采样率
             status,
             audioSrc,
+            timeslice: 1000, // 时间切片（https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/start#Parameters）
             startCallback: (e) => {
                 console.log("succ start", e)
             },
@@ -46,6 +47,9 @@ export default class demo extends Component {
                     audioSrc: window.URL.createObjectURL(e)
                 })
                 console.log("succ stop", e)
+            },
+            onRecordCallback: (e) => {
+                console.log("recording", e)
             },
             errorCallback: (err) => {
                 console.log("error", err)

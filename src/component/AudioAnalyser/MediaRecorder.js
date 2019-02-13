@@ -189,13 +189,14 @@ const MediaRecorderFn = Target => {
          * @param stream: binary data 音频流
          */
         recordAudio(stream) {
-            const {audioBitsPerSecond, mimeType} = this.props;
+            const {audioBitsPerSecond, mimeType, timeslice} = this.props;
             MediaRecorderClass.mediaRecorder = new MediaRecorder(stream, {audioBitsPerSecond, mimeType});
             MediaRecorderClass.mediaRecorder.ondataavailable = (event) => {
+                MediaRecorderClass.checkAndExecFn(this.props.onRecordCallback, event.data);
                 MediaRecorderClass.audioChunk.push(event.data);
             }
             MediaRecorderClass.audioCtx.resume();
-            MediaRecorderClass.mediaRecorder.start();
+            MediaRecorderClass.mediaRecorder.start(timeslice);
             MediaRecorderClass.mediaRecorder.onstart = (e) => {
                 MediaRecorderClass.checkAndExecFn(this.props.startCallback, e);
             }
