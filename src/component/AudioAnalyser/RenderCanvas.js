@@ -39,7 +39,8 @@ const RenderCanvas = Target => {
          */
         initCanvas() {
             window.cancelAnimationFrame(RenderCanvasClass.animationId);
-            const {height, width} = this.props;
+          console.log(888888888,RenderCanvasClass.animationId)
+          const {height, width} = this.props;
             this.configCanvas();
             RenderCanvasClass.canvasCtx.moveTo(0, height / 2);
             RenderCanvasClass.canvasCtx.lineTo(width, height / 2);
@@ -55,14 +56,16 @@ const RenderCanvas = Target => {
             RenderCanvasClass.animationId = window.requestAnimationFrame(this.renderCurve); // 定时动画
             const bufferLength = this.analyser.fftSize; // 默认为2048
             const dataArray = new Uint8Array(bufferLength);
+            console.log("data",dataArray)
             this.analyser.getByteTimeDomainData(dataArray);// 将音频信息存储在长度为2048（默认）的类型数组（dataArray）
             this.configCanvas();
             const sliceWidth = Number(width) / bufferLength;
             let x = 0;
+            RenderCanvasClass.canvasCtx.moveTo(x, height / 2);
             for (let i = 0; i < bufferLength; i++) {
                 const v = dataArray[i] / 128.0;
                 const y = v * height / 2;
-                RenderCanvasClass.canvasCtx[i === 0 ? "moveTo" : "lineTo"](x, y);
+            RenderCanvasClass.canvasCtx["lineTo"](x, y);
                 x += sliceWidth;
             }
             RenderCanvasClass.canvasCtx.lineTo(width, height / 2);

@@ -208,6 +208,7 @@ const MediaRecorderFn = Target => {
             }
             const source = MediaRecorderClass.audioCtx.createMediaStreamSource(stream);
             source.connect(this.analyser);
+            console.log("analyser",this.analyser)
             this.renderCurve(this.analyser);
         }
 
