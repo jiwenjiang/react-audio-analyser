@@ -201,15 +201,25 @@ const MediaRecorderFn = Target => {
                 MediaRecorderClass.checkAndExecFn(this.props.startCallback, e);
             }
             MediaRecorderClass.mediaRecorder.onresume = (e) => {
+                this.initAudioAnalyser(stream)
                 MediaRecorderClass.checkAndExecFn(this.props.startCallback, e);
             }
             MediaRecorderClass.mediaRecorder.onerror = (e) => {
                 MediaRecorderClass.checkAndExecFn(this.props.errorCallback, e);
             }
-            const source = MediaRecorderClass.audioCtx.createMediaStreamSource(stream);
-            source.connect(this.analyser);
-            console.log("analyser",this.analyser)
+            this.initAudioAnalyser(stream)
             this.renderCurve(this.analyser);
+        }
+
+        /**
+        * @author j_bleach 2019/10/31
+        * @describe 重置音频上下文（解决谷歌浏览器 音频数组链接断开问题）
+        */
+
+        initAudioAnalyser(stream){
+          this.analyser = MediaRecorderClass.audioCtx.createAnalyser();
+          const source = MediaRecorderClass.audioCtx.createMediaStreamSource(stream);
+          source.connect(this.analyser);
         }
 
         /**
