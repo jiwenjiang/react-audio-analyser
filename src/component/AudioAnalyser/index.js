@@ -5,14 +5,24 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import MediaRecorder from "./MediaRecorder";
 import RenderCanvas from "./RenderCanvas";
-// import "./index.css";
 
+// import "./index.css";
 
 @MediaRecorder
 @RenderCanvas
 class AudioAnalyser extends Component {
 
+    shouldComponentUpdate(nextProps) {
+        console.log("nextProps", this.props.status, nextProps.status)
+        if (this.props.status != nextProps.status) {
+            return true
+        } else {
+            return false
+        }
+    }
+
     componentDidUpdate(prevProps) {
+        console.log("prevProps", prevProps)
         if (this.props.status !== prevProps.status) {
             const event = {
                 inactive: this.stopAudio,
@@ -28,18 +38,18 @@ class AudioAnalyser extends Component {
             children, className, audioSrc
         } = this.props;
         return (
-            <div className={className}>
-                <div>
-                    {this.renderCanvas()}
-                </div>
-                {children}
-                {
-                    audioSrc &&
-                    <div>
-                        <audio controls src={audioSrc}/>
-                    </div>
-                }
-            </div>
+          <div className={className}>
+              <div>
+                  {this.renderCanvas()}
+              </div>
+              {children}
+              {
+                  audioSrc &&
+                  <div>
+                      <audio controls src={audioSrc}/>
+                  </div>
+              }
+          </div>
         );
     }
 }
@@ -74,6 +84,5 @@ AudioAnalyser.propTypes = {
     stopCallback: PropTypes.func,
     onRecordCallback: PropTypes.func
 };
-
 export default AudioAnalyser;
 

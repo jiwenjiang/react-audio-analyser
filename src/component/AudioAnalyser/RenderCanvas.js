@@ -10,6 +10,7 @@ const RenderCanvas = Target => {
         static animationId = null;
 
         componentDidMount() {
+            console.log("RenderCanvasClass",RenderCanvasClass.canvasRef,this)
             this.initCanvas();
         }
 

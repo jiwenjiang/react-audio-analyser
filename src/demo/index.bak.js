@@ -1,7 +1,6 @@
 /**
  * Created by j_bleach on 2018/8/3.
  */
-/*eslint-disable*/
 import React, {Component} from "react";
 import "./index.css";
 import AudioAnalyser from "../../src/component"
@@ -20,16 +19,6 @@ export default class demo extends Component {
     controlAudio(status) {
         this.setState({
             status
-        }, () => {
-            console.log("status", this.state)
-        })
-    }
-
-    controlAudio2(status2) {
-        this.setState({
-            status2
-        }, () => {
-            console.log("status2", this.state)
         })
     }
 
@@ -40,7 +29,7 @@ export default class demo extends Component {
     }
 
     render() {
-        const {status, status2, audioSrc, audioType} = this.state;
+        const {status, audioSrc, audioType} = this.state;
         const audioProps = {
             audioType,
             // audioOptions: {sampleRate: 30000}, // 设置输出音频采样率
@@ -60,32 +49,7 @@ export default class demo extends Component {
                 console.log("succ stop", e)
             },
             onRecordCallback: (e) => {
-                // console.log("recording", e)
-            },
-            errorCallback: (err) => {
-                console.log("error", err)
-            }
-        }
-        const audioProps2 = {
-            audioType,
-            // audioOptions: {sampleRate: 30000}, // 设置输出音频采样率
-            status: status2,
-            audioSrc,
-            timeslice: 1000, // 时间切片（https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/start#Parameters）
-            startCallback: (e) => {
-                console.log("succ start2", e)
-            },
-            pauseCallback: (e) => {
-                console.log("succ pause2", e)
-            },
-            stopCallback: (e) => {
-                this.setState({
-                    audioSrc: window.URL.createObjectURL(e)
-                })
-                console.log("succ stop2", e)
-            },
-            onRecordCallback: (e) => {
-                // console.log("recording2", e)
+                console.log("recording", e)
             },
             errorCallback: (err) => {
                 console.log("error", err)
@@ -93,7 +57,7 @@ export default class demo extends Component {
         }
         return (
           <div>
-              <AudioAnalyser {...audioProps} >
+              <AudioAnalyser {...audioProps}>
                   <div className="btn-box">
                       {status !== "recording" &&
                       <i className="iconfont icon-start" title="开始"
@@ -103,18 +67,6 @@ export default class demo extends Component {
                          onClick={() => this.controlAudio("paused")}></i>}
                       <i className="iconfont icon-stop" title="停止"
                          onClick={() => this.controlAudio("inactive")}></i>
-                  </div>
-              </AudioAnalyser>
-              <AudioAnalyser {...audioProps2}>
-                  <div className="btn-box">
-                      {status2 !== "recording" &&
-                      <i className="iconfont icon-start" title="开始"
-                         onClick={() => this.controlAudio2("recording")}></i>}
-                      {status2 === "recording" &&
-                      <i className="iconfont icon-pause" title="暂停"
-                         onClick={() => this.controlAudio2("paused")}></i>}
-                      <i className="iconfont icon-stop" title="停止"
-                         onClick={() => this.controlAudio2("inactive")}></i>
                   </div>
               </AudioAnalyser>
               <p>选择输出格式</p>
