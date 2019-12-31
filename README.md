@@ -3,9 +3,6 @@ English | [简体中文](./README_zh-CN.md)
 
 
 [![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/jiwenjiang/react-audio-analyser)
-[![GitHub release](https://img.shields.io/github/release/qubyte/rubidium.svg)](https://www.npmjs.com/package/react-audio-analyser)
-
-
 
 
 recording audio and drawing the curve. support for converting the audio to wav.
@@ -21,8 +18,9 @@ Check out the [demo](https://jiwenjiang.github.io/).
 ## Features
 
 - Record audio and show the curve
-- Support output audio/wav
+- Support output audio/wav,audio/mp3,audio/webm
 - Various state callbacks
+- Support the introduction of multiple components([reference](https://github.com/jiwenjiang/react-audio-analyser/blob/master/src/demo/mixAudio.js))
 
 ## Example
 
