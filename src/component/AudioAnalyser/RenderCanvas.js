@@ -5,17 +5,20 @@ import React from "react";
 
 const RenderCanvas = Target => {
     return class RenderCanvasClass extends Target {
-        static canvasRef = React.createRef(); // react ref
-        static canvasCtx = null; // canvas 上下文
-        static animationId = null;
+
+        constructor(props) {
+            super(props)
+            this.canvasRef = React.createRef() // react ref
+            this.canvasCtx = null; // canvas 上下文
+            this.animationId = null;
+        }
 
         componentDidMount() {
-            console.log("RenderCanvasClass",RenderCanvasClass.canvasRef,this)
             this.initCanvas();
         }
 
         componentWillUnmount() {
-            window.cancelAnimationFrame(RenderCanvasClass.animationId); //组件销毁前，注销定时动画
+            window.cancelAnimationFrame(this.animationId); //组件销毁前，注销定时动画
         }
 
         /**
@@ -24,14 +27,14 @@ const RenderCanvas = Target => {
          */
         configCanvas() {
             const {height, width, backgroundColor, strokeColor} = this.props;
-            const canvas = RenderCanvasClass.canvasRef.current;
-            RenderCanvasClass.canvasCtx = canvas.getContext("2d");
-            RenderCanvasClass.canvasCtx.clearRect(0, 0, width, height);
-            RenderCanvasClass.canvasCtx.fillStyle = backgroundColor;
-            RenderCanvasClass.canvasCtx.fillRect(0, 0, width, height);
-            RenderCanvasClass.canvasCtx.lineWidth = 2;
-            RenderCanvasClass.canvasCtx.strokeStyle = strokeColor;
-            RenderCanvasClass.canvasCtx.beginPath();
+            const canvas = this.canvasRef.current;
+            this.canvasCtx = canvas.getContext("2d");
+            this.canvasCtx.clearRect(0, 0, width, height);
+            this.canvasCtx.fillStyle = backgroundColor;
+            this.canvasCtx.fillRect(0, 0, width, height);
+            this.canvasCtx.lineWidth = 2;
+            this.canvasCtx.strokeStyle = strokeColor;
+            this.canvasCtx.beginPath();
         }
 
         /**
@@ -39,12 +42,12 @@ const RenderCanvas = Target => {
          * @describe 画布初始化,停止动画
          */
         initCanvas() {
-            window.cancelAnimationFrame(RenderCanvasClass.animationId);
+            window.cancelAnimationFrame(this.animationId);
             const {height, width} = this.props;
             this.configCanvas();
-            RenderCanvasClass.canvasCtx.moveTo(0, height / 2);
-            RenderCanvasClass.canvasCtx.lineTo(width, height / 2);
-            RenderCanvasClass.canvasCtx.stroke();
+            this.canvasCtx.moveTo(0, height / 2);
+            this.canvasCtx.lineTo(width, height / 2);
+            this.canvasCtx.stroke();
         }
 
         /**
@@ -53,7 +56,7 @@ const RenderCanvas = Target => {
          */
         renderCurve = () => {
             const {height, width} = this.props;
-            RenderCanvasClass.animationId = window.requestAnimationFrame(this.renderCurve); // 定时动画
+            this.animationId = window.requestAnimationFrame(this.renderCurve); // 定时动画
             const bufferLength = this.analyser.fftSize; // 默认为2048
             const dataArray = new Uint8Array(bufferLength);
             // console.log("data",dataArray)
@@ -61,15 +64,15 @@ const RenderCanvas = Target => {
             this.configCanvas();
             const sliceWidth = Number(width) / bufferLength;
             let x = 0;
-            RenderCanvasClass.canvasCtx.moveTo(x, height / 2);
+            this.canvasCtx.moveTo(x, height / 2);
             for (let i = 0; i < bufferLength; i++) {
                 const v = dataArray[i] / 128.0;
                 const y = v * height / 2;
-            RenderCanvasClass.canvasCtx["lineTo"](x, y);
+                this.canvasCtx["lineTo"](x, y);
                 x += sliceWidth;
             }
-            RenderCanvasClass.canvasCtx.lineTo(width, height / 2);
-            RenderCanvasClass.canvasCtx.stroke();
+            this.canvasCtx.lineTo(width, height / 2);
+            this.canvasCtx.stroke();
         }
 
         /**
@@ -78,7 +81,7 @@ const RenderCanvas = Target => {
          */
         renderCanvas() {
             const {height, width} = this.props;
-            return <canvas ref={RenderCanvasClass.canvasRef} height={height} width={width}
+            return <canvas ref={this.canvasRef} height={height} width={width}
                            style={{width: width, height: height}}/>
         }
     }

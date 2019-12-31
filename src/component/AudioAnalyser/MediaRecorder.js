@@ -10,14 +10,14 @@ const MediaRecorderFn = Target => {
     const constraints = {audio: true};
     const mp3Worker = new Worker(WebWorker);
     return class MediaRecorderClass extends Target {
-        static audioChunk = [] // 音频信息存储对象
-        static mediaRecorder = null // 媒体记录对象
-        static audioCtx = new (window.AudioContext || window.webkitAudioContext)(); // 音频上下文
 
         constructor(props) {
             super(props);
             MediaRecorderClass.compatibility();
-            this.analyser = MediaRecorderClass.audioCtx.createAnalyser();
+            this.audioChunk = [] // 音频信息存储对象
+            this.mediaRecorder = null // 媒体记录对象
+            this.audioCtx = new (window.AudioContext || window.webkitAudioContext)(); // 音频上下文
+            this.analyser = this.audioCtx.createAnalyser();
         }
 
         /**
@@ -28,16 +28,16 @@ const MediaRecorderFn = Target => {
             const promisifiedOldGUM = (constraints) => {
                 // First get ahold of getUserMedia, if present
                 const getUserMedia =
-                    navigator.getUserMedia ||
-                    navigator.webkitGetUserMedia ||
-                    navigator.mozGetUserMedia;
+                  navigator.getUserMedia ||
+                  navigator.webkitGetUserMedia ||
+                  navigator.mozGetUserMedia;
 
                 // Some browsers just don't implement it - return a rejected promise with an error
                 // to keep a consistent interface
                 if (!getUserMedia) {
                     MediaRecorderClass.checkAndExecFn(this.props.errorCallback);
                     return Promise.reject(
-                        new Error("getUserMedia is not implemented in this browser")
+                      new Error("getUserMedia is not implemented in this browser")
                     );
                 }
                 // Otherwise, wrap the call to the old navigator.getUserMedia with a Promise
@@ -75,15 +75,15 @@ const MediaRecorderFn = Target => {
          * @param type: string 音频的mime-type
          * @param cb: function 录音停止回调
          */
-        static audioStream2Blob(type, audioOptions, cb) {
+        audioStream2Blob(type, audioOptions, cb) {
             let wavBlob = null;
-            const chunk = MediaRecorderClass.audioChunk;
+            const chunk = this.audioChunk;
             const audioWav = () => {
                 let fr = new FileReader();
                 fr.readAsArrayBuffer(new Blob(chunk, {type}))
                 let frOnload = (e) => {
                     const buffer = e.target.result
-                    MediaRecorderClass.audioCtx.decodeAudioData(buffer).then(data => {
+                    this.audioCtx.decodeAudioData(buffer).then(data => {
                         wavBlob = new Blob([new DataView(convertWav(data, audioOptions))], {
                             type: "audio/wav"
                         })
@@ -97,7 +97,7 @@ const MediaRecorderFn = Target => {
                 fr.readAsArrayBuffer(new Blob(chunk, {type: "audio/wav"}))
                 let frOnload = (e) => {
                     const buffer = e.target.result;
-                    MediaRecorderClass.audioCtx.decodeAudioData(buffer).then(data => {
+                    this.audioCtx.decodeAudioData(buffer).then(data => {
                         const wavBuf = convertWav(data, audioOptions)
                         mp3Worker.postMessage({
                             cmd: "init",
@@ -136,19 +136,19 @@ const MediaRecorderFn = Target => {
          * @describe 开始录音
          */
         startAudio = () => {
-            const recorder = MediaRecorderClass.mediaRecorder;
+            const recorder = this.mediaRecorder;
             if (!recorder || (recorder && recorder.state === "inactive")) {
                 navigator.mediaDevices.getUserMedia(constraints).then(stream => {
                     this.recordAudio(stream);
                 }).catch(err => {
-                        MediaRecorderClass.checkAndExecFn(this.props.errorCallback, err);
-                        // throw new Error("getUserMedia failed:", err);
-                    }
+                      MediaRecorderClass.checkAndExecFn(this.props.errorCallback, err);
+                      // throw new Error("getUserMedia failed:", err);
+                  }
                 )
                 return false
             }
             if (recorder && recorder.state === "paused") {
-                MediaRecorderClass.resumeAudio();
+                this.resumeAudio();
             }
         }
         /**
@@ -156,13 +156,13 @@ const MediaRecorderFn = Target => {
          * @describe 暂停录音
          */
         pauseAudio = () => {
-            const recorder = MediaRecorderClass.mediaRecorder;
+            const recorder = this.mediaRecorder;
             if (recorder && recorder.state === "recording") {
                 recorder.pause();
                 recorder.onpause = () => {
                     MediaRecorderClass.checkAndExecFn(this.props.pauseCallback);
                 }
-                MediaRecorderClass.audioCtx.suspend();
+                this.audioCtx.suspend();
             }
         }
         /**
@@ -171,14 +171,14 @@ const MediaRecorderFn = Target => {
          */
         stopAudio = () => {
             const {audioType, audioOptions} = this.props;
-            const recorder = MediaRecorderClass.mediaRecorder;
+            const recorder = this.mediaRecorder;
             if (recorder && ["recording", "paused"].includes(recorder.state)) {
                 recorder.stop();
                 recorder.onstop = () => {
-                    MediaRecorderClass.audioStream2Blob(audioType, audioOptions, this.props.stopCallback);
-                    MediaRecorderClass.audioChunk = []; // 结束后，清空音频存储
+                    this.audioStream2Blob(audioType, audioOptions, this.props.stopCallback);
+                    this.audioChunk = []; // 结束后，清空音频存储
                 }
-                MediaRecorderClass.audioCtx.suspend();
+                this.audioCtx.suspend();
                 this.initCanvas();
             }
         }
@@ -190,21 +190,21 @@ const MediaRecorderFn = Target => {
          */
         recordAudio(stream) {
             const {audioBitsPerSecond, mimeType, timeslice} = this.props;
-            MediaRecorderClass.mediaRecorder = new MediaRecorder(stream, {audioBitsPerSecond, mimeType});
-            MediaRecorderClass.mediaRecorder.ondataavailable = (event) => {
+            this.mediaRecorder = new MediaRecorder(stream, {audioBitsPerSecond, mimeType});
+            this.mediaRecorder.ondataavailable = (event) => {
                 MediaRecorderClass.checkAndExecFn(this.props.onRecordCallback, event.data);
-                MediaRecorderClass.audioChunk.push(event.data);
+                this.audioChunk.push(event.data);
             }
-            MediaRecorderClass.audioCtx.resume();
-            MediaRecorderClass.mediaRecorder.start(timeslice);
-            MediaRecorderClass.mediaRecorder.onstart = (e) => {
+            this.audioCtx.resume();
+            this.mediaRecorder.start(timeslice);
+            this.mediaRecorder.onstart = (e) => {
                 MediaRecorderClass.checkAndExecFn(this.props.startCallback, e);
             }
-            MediaRecorderClass.mediaRecorder.onresume = (e) => {
+            this.mediaRecorder.onresume = (e) => {
                 this.initAudioAnalyser(stream)
                 MediaRecorderClass.checkAndExecFn(this.props.startCallback, e);
             }
-            MediaRecorderClass.mediaRecorder.onerror = (e) => {
+            this.mediaRecorder.onerror = (e) => {
                 MediaRecorderClass.checkAndExecFn(this.props.errorCallback, e);
             }
             this.initAudioAnalyser(stream)
@@ -212,23 +212,23 @@ const MediaRecorderFn = Target => {
         }
 
         /**
-        * @author j_bleach 2019/10/31
-        * @describe 重置音频上下文（解决谷歌浏览器 音频数组链接断开问题）
-        */
+         * @author j_bleach 2019/10/31
+         * @describe 重置音频上下文（解决谷歌浏览器 音频数组链接断开问题）
+         */
 
-        initAudioAnalyser(stream){
-          this.analyser = MediaRecorderClass.audioCtx.createAnalyser();
-          const source = MediaRecorderClass.audioCtx.createMediaStreamSource(stream);
-          source.connect(this.analyser);
+        initAudioAnalyser(stream) {
+            this.analyser = this.audioCtx.createAnalyser();
+            const source = this.audioCtx.createMediaStreamSource(stream);
+            source.connect(this.analyser);
         }
 
         /**
          * @author j_bleach 2018/8/19
          * @describe 恢复录音
          */
-        static resumeAudio() {
-            MediaRecorderClass.audioCtx.resume();
-            MediaRecorderClass.mediaRecorder.resume();
+        resumeAudio() {
+            this.audioCtx.resume();
+            this.mediaRecorder.resume();
         }
     }
 }

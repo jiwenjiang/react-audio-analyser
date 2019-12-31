@@ -13,16 +13,13 @@ import RenderCanvas from "./RenderCanvas";
 class AudioAnalyser extends Component {
 
     shouldComponentUpdate(nextProps) {
-        console.log("nextProps", this.props.status, nextProps.status)
-        if (this.props.status != nextProps.status) {
-            return true
-        } else {
+        if (this.props.status == nextProps.status && this.props.audioSrc == nextProps.audioSrc) {
             return false
         }
+        return true
     }
 
     componentDidUpdate(prevProps) {
-        console.log("prevProps", prevProps)
         if (this.props.status !== prevProps.status) {
             const event = {
                 inactive: this.stopAudio,
@@ -32,6 +29,10 @@ class AudioAnalyser extends Component {
             event && event();
         }
     }
+
+    // render() {
+    //     return (<div>233{this.props.status}</div>)
+    // }
 
     render() {
         const {
