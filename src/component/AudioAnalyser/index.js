@@ -6,17 +6,28 @@ import PropTypes from "prop-types";
 import MediaRecorder from "./MediaRecorder";
 import RenderCanvas from "./RenderCanvas";
 
-// import "./index.css";
 
 @MediaRecorder
 @RenderCanvas
 class AudioAnalyser extends Component {
 
+    static renderProps = ["status", "audioSrc"]
+
+    /**
+     * @author j_bleach 2020/1/1
+     * @describe ["status", "audioSrc"]判断是否渲染
+     * @param props: object
+     * @param nextProps: object
+     * @param renderProps: array
+     * @return boolean
+     */
+    static checkRender(props, nextProps, renderProps) {
+        const keys = [...new Set(renderProps)]
+        return keys.some(v => props[v] !== nextProps[v])
+    }
+
     shouldComponentUpdate(nextProps) {
-        if (this.props.status == nextProps.status && this.props.audioSrc == nextProps.audioSrc) {
-            return false
-        }
-        return true
+        return AudioAnalyser.checkRender(this.props, nextProps, AudioAnalyser.renderProps)
     }
 
     componentDidUpdate(prevProps) {
@@ -29,10 +40,6 @@ class AudioAnalyser extends Component {
             event && event();
         }
     }
-
-    // render() {
-    //     return (<div>233{this.props.status}</div>)
-    // }
 
     render() {
         const {
