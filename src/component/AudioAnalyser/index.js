@@ -39,12 +39,70 @@ class AudioAnalyser extends Component {
             }[this.props.status];
             event && event();
         }
+        // TODO 音频回显
+        // if (this.props.audioSrc !== prevProps.audioSrc) {
+        //     const audioId = this.props.audioSrc.substring(this.props.audioSrc.length - 6)
+        //     document.getElementById(audioId).addEventListener("timeupdate", this.audioProgress)
+        //     // console.log("change audio src!", audioEle)
+        // }
+    }
+
+    audioProgress = () => {
+        // var request = new XMLHttpRequest();
+        // request.open("GET", this.props.audioSrc, true);
+        // request.responseType = "arraybuffer"; // 设置数据类型为arraybuffer
+        // request.onload = () => {
+        //     var audioData = request.response;
+        //     this.audioCtx.decodeAudioData(audioData, (buffer) => {
+        //         console.log("buffer", buffer)
+        //         const AudioBufferSourceNode = this.audioCtx.createBufferSource()
+        //         this.analyser = this.audioCtx.createAnalyser();
+        //         AudioBufferSourceNode.buffer = buffer; // AudioBuffer数据赋值给buffer属性
+        //         //AudioBufferSourceNode.connect(audioCtx.destination); // 如果只是播放音频，这边就直接将AudioBufferSourceNode连接到AudioDestinationNode
+        //         AudioBufferSourceNode.connect(this.analyser);  // 实现播放后，需要将bufferSourceNode连接到AnalyserNode，才能通过AnalyserNode获取后面可视化所需的数据
+        //         AudioBufferSourceNode.loop = true;  // 循环播放，默认为false
+        //         AudioBufferSourceNode.start(0); // 开始播放音频
+        //         this.renderCurve();
+        //     });
+        // }
+        // request.send();
+        // let fr = new FileReader();
+        // fr.readAsArrayBuffer(this.props.audioBlob)
+        // fr.onload = (e) => {
+        //     this.audioCtx.decodeAudioData(e.target.result).then(data => {
+        //         console.log("bef", data)
+        //         // const source = this.audioCtx.createBufferSource()
+        //         // this.analyser = this.audioCtx.createAnalyser();
+        //         // source.connect(this.analyser);
+        //         // //connect the analyser to the destination(the speaker), or we won't hear the sound
+        //         // // this.analyser.connect(this.audioCtx.destination);
+        //         // source.buffer = data;
+        //         // if (!source.start) {
+        //         //     source.start = source.noteOn //in old browsers use noteOn method
+        //         //     source.stop = source.noteOff //in old browsers use noteOff method
+        //         // }
+        //         //
+        //         // // start the source playing
+        //         // source.start(0);
+        //         // console.log("src", source)
+        //
+        //
+        //     })
+        // }
+        const audio = new Audio();
+        audio.src = this.props.audioSrc;
+        const source = this.audioCtx.createMediaElementSource(audio);
+        source.connect(this.analyser);
+        // this.analyser.connect(this.audioCtx.destination);
+        this.renderCurve();
+
     }
 
     render() {
         const {
             children, className, audioSrc
         } = this.props;
+
         return (
           <div className={className}>
               <div>
@@ -54,7 +112,7 @@ class AudioAnalyser extends Component {
               {
                   audioSrc &&
                   <div>
-                      <audio controls src={audioSrc}/>
+                      <audio controls src={audioSrc} id={audioSrc.substring(audioSrc.length - 6)}/>
                   </div>
               }
           </div>

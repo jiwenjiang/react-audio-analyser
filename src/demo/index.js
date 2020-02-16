@@ -32,12 +32,13 @@ export default class demo extends Component {
     }
 
     render() {
-        const {status, audioSrc, audioType} = this.state;
+        const {status, audioSrc, audioType, audioBlob} = this.state;
         const audioProps = {
             audioType,
             // audioOptions: {sampleRate: 30000}, // 设置输出音频采样率
             status,
             audioSrc,
+            audioBlob,
             timeslice: 1000, // 时间切片（https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/start#Parameters）
             startCallback: (e) => {
                 console.log("succ start", e)
@@ -47,7 +48,8 @@ export default class demo extends Component {
             },
             stopCallback: (e) => {
                 this.setState({
-                    audioSrc: window.URL.createObjectURL(e)
+                    audioSrc: window.URL.createObjectURL(e),
+                    audioBlob: e
                 })
                 console.log("succ stop", e)
             },

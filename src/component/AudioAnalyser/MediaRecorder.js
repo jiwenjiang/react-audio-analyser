@@ -208,7 +208,7 @@ const MediaRecorderFn = Target => {
                 MediaRecorderClass.checkAndExecFn(this.props.errorCallback, e);
             }
             this.initAudioAnalyser(stream)
-            this.renderCurve(this.analyser);
+            this.renderCurve();
         }
 
         /**
