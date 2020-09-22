@@ -35,7 +35,7 @@ const MediaRecorderFn = Target => {
                 // Some browsers just don't implement it - return a rejected promise with an error
                 // to keep a consistent interface
                 if (!getUserMedia) {
-                    MediaRecorderClass.checkAndExecFn(this.props.errorCallback);
+                    MediaRecorderClass.checkAndExecFn(this.props ? this.props.errorCallback : null);
                     return Promise.reject(
                       new Error("getUserMedia is not implemented in this browser")
                     );
