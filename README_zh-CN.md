@@ -95,9 +95,10 @@ export default class demo extends Component {
                 </AudioAnalyser>
                 <p>选择输出格式</p>
                 <select name="" id="" onChange={(e) => this.changeScheme(e)} value={audioType}>
-                    <option value="audio/webm">audio/webm（default）</option>
+                    <option value="audio/webm">audio/webm（default, safari does not support ）</option>
                     <option value="audio/wav">audio/wav</option>
                     <option value="audio/mp3">audio/mp3</option>
+                    <option value="audio/mp4">audio/mp4</option>
                 </select>
             </div>
         );
@@ -110,7 +111,7 @@ export default class demo extends Component {
 属性   | 描述                                          | 默认值               |是否必填
 -------------|------------------------------------------------------|-------------------------|------------
 `status`     | `recording` 开始录音 , `paused` 暂停录音 , `inactive` 停止录音 | undefined               | 是
-`audioType`       | 录音输出类型      | audio/webm | 否
+`audioType`       | 录音输出类型      | audio/webm(safari 默认audio/mp4) | 否
 `timeslice`       | 记录到每个音频文件的间隔时间      | audio/webm | 否
 `audioSrc`     | 录音文件路径（通过输出音频文件转换），设置此属性后显示audio播放器    | null    | 否
 `startCallback`     | 开始（恢复）录音成功回调     |   undefined                 | 否
@@ -134,4 +135,5 @@ MIT
 
 ## 待做
 - 输出音频转换MP3格式(已完成)
+- 支持safari(已完成)
 - 多样曲线展示

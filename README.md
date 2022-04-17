@@ -99,9 +99,10 @@ export default class demo extends Component {
                 </AudioAnalyser>
                 <p>choose output type</p>
                 <select name="" id="" onChange={(e) => this.changeScheme(e)} value={audioType}>
-                    <option value="audio/webm">audio/webm（default）</option>
+                    <option value="audio/webm">audio/webm（default, safari does not support ）</option>
                     <option value="audio/wav">audio/wav</option>
                     <option value="audio/mp3">audio/mp3</option>
+                    <option value="audio/mp4">audio/mp4</option>
                 </select>
             </div>
         );
@@ -114,7 +115,7 @@ export default class demo extends Component {
 Properties   | Description                                          | Default               |IsRequired
 -------------|------------------------------------------------------|-------------------------|------------
 `status`     | `recording` start , `paused` pause , `inactive` stop | undefined               | yes
-`audioType`       | audio output type      | audio/webm | no
+`audioType`       | audio output type      | audio/webm(audio/mp4 in safari) | no
 `timeslice`       | The number of milliseconds to record into each Blob      | undefined | no
 `audioSrc`     | window.URL.createObjectURL of output audio blob ,when the prop set, showing the audio control list    | null    | no                  |
 `startCallback`     | Function triggered after starting(resuming) recording     |   undefined                 | no
@@ -138,4 +139,5 @@ MIT
 
 ## TODO
 - output audio/mp3 (completed)
+- support safari (completed)
 - Diverse audio curve display
