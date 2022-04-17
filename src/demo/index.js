@@ -76,9 +76,10 @@ export default class demo extends Component {
               </AudioAnalyser>
               <p>选择输出格式</p>
               <select name="" id="" onChange={(e) => this.changeScheme(e)} value={audioType}>
-                  <option value="audio/webm">audio/webm（default）</option>
+                  <option value="audio/webm">audio/webm（default, safari does not support ）</option>
                   <option value="audio/wav">audio/wav</option>
                   <option value="audio/mp3">audio/mp3</option>
+                  <option value="audio/mp4">audio/mp4</option>
               </select>
           </div>
         );
